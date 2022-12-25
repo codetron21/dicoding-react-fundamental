@@ -4,7 +4,7 @@ import NotesScreen from "./pages/NotesScreen";
 import DetailNoteScreen from "./pages/DetailNoteScreen";
 import HeaderNote from "./components/HeaderNote";
 import NotFoundScreen from "./pages/NotFoundScreen";
-import CreateNoteScreen from "./pages/CreateNoteScreen";
+import CreateNoteScreenWrapper from "./pages/CreateNoteScreen";
 import Spacer from "./components/Spacer";
 
 const NotesApp = () => {
@@ -29,7 +29,7 @@ const NotesApp = () => {
       <main>
         <Routes>
           <Route path="/" element={<NotesScreen />} />
-          <Route path="/create-note" element={<CreateNoteScreen />} />
+          <Route path="/create-note" element={<CreateNoteScreenWrapper />} />
           <Route path="/detail-note/:id" element={<DetailNoteScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>

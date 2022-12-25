@@ -1,14 +1,21 @@
 import React from "react";
-
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import LabelNote from "../components/LabelNote";
 import Spacer from "../components/Spacer";
 import { addNote } from "../utils/local-data";
 
 const LIMIT_DESCRIPTION_SIZE = 50;
 
+const CreateNoteScreenWrapper = () => {
+  const navigate = useNavigate();
+
+  return <CreateNoteScreen navigate={navigate} />;
+};
+
 class CreateNoteScreen extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       title: "",
@@ -56,6 +63,7 @@ class CreateNoteScreen extends React.Component {
 
     addNote({ title, body });
     alert("Berhasil menambahkan catatan");
+    this.props.navigate("/");
   };
 
   render() {
@@ -94,4 +102,8 @@ class CreateNoteScreen extends React.Component {
   }
 }
 
-export default CreateNoteScreen;
+CreateNoteScreen.propTypes = {
+  navigate: PropTypes.func,
+};
+
+export default CreateNoteScreenWrapper;

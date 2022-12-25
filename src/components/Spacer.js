@@ -10,8 +10,8 @@ const Spacer = ({ h = 0, v = 0 }) => {
 };
 
 Spacer.propTypes = {
-  h: PropTypes.number.isRequired,
-  v: PropTypes.number.isRequired,
+  h: PropTypes.number,
+  v: PropTypes.number,
 };
 
 export default Spacer;

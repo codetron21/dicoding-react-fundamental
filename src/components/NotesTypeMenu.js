@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import Spacer from "./Spacer";
 
 const NotesTypeMenu = ({ isActive, isArchived, onActive, onArchive }) => {
-  console.log(isArchived);
-
   return (
     <div className="notes-type-menu">
       <button

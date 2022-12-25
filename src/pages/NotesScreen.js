@@ -89,8 +89,6 @@ class NotesScreen extends React.Component {
   activeNotesClicked = (e) => {
     e.preventDefault();
 
-    console.log(this.state.notesType);
-
     this.setState({
       notes: getActiveNotes(),
       notesType: ACTIVE_NOTES,
@@ -99,8 +97,6 @@ class NotesScreen extends React.Component {
 
   archivedNotesClicked = (e) => {
     e.preventDefault();
-
-    console.log(this.state.notesType);
 
     this.setState({
       notes: getArchivedNotes(),

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import NoteItem from "./NoteItem";
 
-const ListNote = ({ items, onDelete, onArchive, onClick }) => (
+const ListNote = ({ items, onDelete, onArchive }) => (
   <div>
     {items.map((item) => (
       <NoteItem
@@ -14,7 +14,6 @@ const ListNote = ({ items, onDelete, onArchive, onClick }) => (
         archived={item.archived}
         onDelete={onDelete}
         onArchive={onArchive}
-        onClick={onClick}
       />
     ))}
   </div>
@@ -24,7 +23,6 @@ ListNote.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   onDelete: PropTypes.func.isRequired,
   onArchive: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default ListNote;
