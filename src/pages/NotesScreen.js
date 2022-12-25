@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  getAllNotes,
   getActiveNotes,
   getArchivedNotes,
   deleteNote,
@@ -11,7 +10,6 @@ import {
 } from "../utils/local-data";
 
 import Text from "../components/Text";
-import HeaderNote from "../components/HeaderNote";
 import Spacer from "../components/Spacer";
 import SearchNote from "../components/SearchNote";
 import LabelNote from "../components/LabelNote";
@@ -25,7 +23,7 @@ class NotesScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      notes: getAllNotes(),
+      notes: getActiveNotes(),
       notesType: ACTIVE_NOTES,
       query: "",
     };
@@ -116,10 +114,6 @@ class NotesScreen extends React.Component {
 
     return (
       <>
-        <HeaderNote title="Notes" />
-
-        <Spacer v={20} />
-
         <SearchNote
           value={this.state.query}
           hint="Judul catatan"
@@ -161,7 +155,7 @@ class NotesScreen extends React.Component {
                 onArchive={this.onUnArchiveNote}
               />
             ) : (
-              <Text>Tidak ada catatan</Text>
+              <Text>Tidak ada arsip catatan</Text>
             )}
           </div>
         )}

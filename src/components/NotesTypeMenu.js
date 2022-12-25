@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import Spacer from "./Spacer";
 
 const NotesTypeMenu = ({ isActive, isArchived, onActive, onArchive }) => {
@@ -24,6 +24,13 @@ const NotesTypeMenu = ({ isActive, isArchived, onActive, onArchive }) => {
       </button>
     </div>
   );
+};
+
+NotesTypeMenu.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+  isArchived: PropTypes.bool.isRequired,
+  onActive: PropTypes.func.isRequired,
+  onArchive: PropTypes.func.isRequired,
 };
 
 export default NotesTypeMenu;

@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import Spacer from "./Spacer";
 
 const SearchNote = ({ value, hint, onChange, onSubmit }) => (
@@ -17,5 +17,12 @@ const SearchNote = ({ value, hint, onChange, onSubmit }) => (
     </button>
   </div>
 );
+
+SearchNote.propTypes = {
+  value: PropTypes.string.isRequired,
+  hint: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchNote;

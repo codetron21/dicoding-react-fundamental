@@ -1,11 +1,14 @@
 import React from "react";
 
-import LabelNote from "./LabelNote";
-import Spacer from "./Spacer";
+import LabelNote from "../components/LabelNote";
+import Spacer from "../components/Spacer";
+import { addNote } from "../utils/local-data";
 
-class CreateNote extends React.Component {
-  constructor(props) {
-    super(props);
+const LIMIT_DESCRIPTION_SIZE = 50;
+
+class CreateNoteScreen extends React.Component {
+  constructor() {
+    super();
 
     this.state = {
       title: "",
@@ -24,9 +27,9 @@ class CreateNote extends React.Component {
 
   onBodyChange = (e) => {
     const body = e.target.value;
-    const limit = 50;
+    const limit = LIMIT_DESCRIPTION_SIZE;
 
-    if (body.length >= limit) {
+    if (body.length > limit) {
       this.setState({
         buttonEnabled: false,
       });
@@ -38,6 +41,21 @@ class CreateNote extends React.Component {
       body,
       buttonEnabled: true,
     });
+  };
+
+  onAddNoteSubmitted = (e) => {
+    e.preventDefault();
+
+    const title = this.state.title;
+    const body = this.state.body;
+
+    if (!title || !body) {
+      alert("Kolom isian catatan tidak boleh kosong");
+      return;
+    }
+
+    addNote({ title, body });
+    alert("Berhasil menambahkan catatan");
   };
 
   render() {
@@ -52,6 +70,7 @@ class CreateNote extends React.Component {
           onChange={this.onTitleChange}
         />
         <Spacer v={10} />
+        <p className="note-create__desc-info-limit">{`${this.state.body.length}/${LIMIT_DESCRIPTION_SIZE}`}</p>
         <textarea
           className="note__input"
           value={this.state.body}
@@ -65,9 +84,7 @@ class CreateNote extends React.Component {
         <button
           className="button-large"
           type="button"
-          onClick={() =>
-            this.props.onAddNoteSubmitted(this.state.title, this.state.body)
-          }
+          onClick={this.onAddNoteSubmitted}
           disabled={!this.state.buttonEnabled}
         >
           Tambah
@@ -77,4 +94,4 @@ class CreateNote extends React.Component {
   }
 }
 
-export default CreateNote;
+export default CreateNoteScreen;
