@@ -4,7 +4,7 @@ import NotesScreen from "./pages/NotesScreen";
 import DetailNoteScreen from "./pages/DetailNoteScreen";
 import HeaderNote from "./components/HeaderNote";
 import NotFoundScreen from "./pages/NotFoundScreen";
-import CreateNoteScreenWrapper from "./pages/CreateNoteScreen";
+import CreateNoteScreen from "./pages/CreateNoteScreen";
 import Spacer from "./components/Spacer";
 
 const NotesApp = () => {
@@ -18,8 +18,9 @@ const NotesApp = () => {
             </li>
             <Spacer h={20} />
             <li>
-              <Link to="/create-note">Tambah Catatan</Link>
+              <Link to="/create-note">Add Notes</Link>
             </li>
+            <li>{/* <a href="">Logout</a> */}</li>
           </ul>
         </nav>
 
@@ -29,7 +30,7 @@ const NotesApp = () => {
       <main>
         <Routes>
           <Route path="/" element={<NotesScreen />} />
-          <Route path="/create-note" element={<CreateNoteScreenWrapper />} />
+          <Route path="/create-note" element={<CreateNoteScreen />} />
           <Route path="/detail-note/:id" element={<DetailNoteScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>

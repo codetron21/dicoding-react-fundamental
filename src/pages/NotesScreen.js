@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   getActiveNotes,
@@ -19,145 +19,121 @@ import NotesTypeMenu from "../components/NotesTypeMenu";
 const ACTIVE_NOTES = "ACTIVE_NOTES";
 const ARCHIVED_NOTES = "ARCHIVED_NOTES";
 
-class NotesScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      notes: getActiveNotes(),
-      notesType: ACTIVE_NOTES,
-      query: "",
-    };
-  }
+const NotesScreen = () => {
+  const [notes, setNotes] = useState(() => getActiveNotes());
+  const [notesType, setNotesType] = useState(ACTIVE_NOTES);
+  const [query, setQuery] = useState("");
 
-  onChangeSearchNotes = (e) => {
+  const onChangeSearchNotes = (e) => {
     e.preventDefault();
 
     const title = e.target.value;
-    const isActiveNotes = this.state.notesType === ACTIVE_NOTES;
+    const isActiveNotes = notesType === ACTIVE_NOTES;
     const notes = title
       ? searchNotes(title, !isActiveNotes)
       : isActiveNotes
       ? getActiveNotes()
       : getArchivedNotes();
 
-    this.setState({
-      notes,
-      query: title,
-    });
+    setNotes(notes);
+    setQuery(title);
   };
 
-  onSubmitSearchNotes = (e) => {
+  const onSubmitSearchNotes = (e) => {
     e.preventDefault();
 
-    const title = this.state.query;
-    const isActiveNotes = this.state.notesType === ACTIVE_NOTES;
+    const title = query;
+    const isActiveNotes = notesType === ACTIVE_NOTES;
     const notes = title
       ? searchNotes(title, !isActiveNotes)
       : isActiveNotes
       ? getActiveNotes()
       : getArchivedNotes();
 
-    this.setState({
-      notes,
-    });
+    setNotes(notes);
   };
 
-  onDeleteNote = (id) => {
+  const onDeleteNote = (id) => {
     deleteNote(id);
-    const isActiveNotes = this.state.notesType === ACTIVE_NOTES;
-    this.setState({
-      notes: isActiveNotes ? getActiveNotes() : getArchivedNotes(),
-    });
+    const isActiveNotes = notesType === ACTIVE_NOTES;
+    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
   };
 
-  onArchiveNote = (id) => {
+  const onArchiveNote = (id) => {
     archiveNote(id);
-    const isActiveNotes = this.state.notesType === ACTIVE_NOTES;
-    this.setState({
-      notes: isActiveNotes ? getActiveNotes() : getArchivedNotes(),
-    });
+    const isActiveNotes = notesType === ACTIVE_NOTES;
+    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
   };
 
-  onUnArchiveNote = (id) => {
+  const onUnArchiveNote = (id) => {
     unarchiveNote(id);
-    const isActiveNotes = this.state.notesType === ACTIVE_NOTES;
-    this.setState({
-      notes: isActiveNotes ? getActiveNotes() : getArchivedNotes(),
-    });
+    const isActiveNotes = notesType === ACTIVE_NOTES;
+    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
   };
 
-  activeNotesClicked = (e) => {
+  const activeNotesClicked = (e) => {
     e.preventDefault();
 
-    this.setState({
-      notes: getActiveNotes(),
-      notesType: ACTIVE_NOTES,
-    });
+    setNotes(getActiveNotes());
+    setNotesType(ACTIVE_NOTES);
   };
 
-  archivedNotesClicked = (e) => {
+  const archivedNotesClicked = (e) => {
     e.preventDefault();
 
-    this.setState({
-      notes: getArchivedNotes(),
-      notesType: ARCHIVED_NOTES,
-    });
+    setNotes(getArchivedNotes());
+    setNotesType(ARCHIVED_NOTES);
   };
 
-  render() {
-    const notes = this.state.notes;
-    const notesType = this.state.notesType;
+  return (
+    <>
+      <SearchNote
+        value={query}
+        hint="Judul catatan"
+        onChange={onChangeSearchNotes}
+        onSubmit={onSubmitSearchNotes}
+      />
 
-    return (
-      <>
-        <SearchNote
-          value={this.state.query}
-          hint="Judul catatan"
-          onChange={this.onChangeSearchNotes}
-          onSubmit={this.onSubmitSearchNotes}
-        />
+      <Spacer v={40} />
 
-        <Spacer v={40} />
+      <NotesTypeMenu
+        isActive={notesType === ACTIVE_NOTES}
+        isArchived={notesType === ARCHIVED_NOTES}
+        onActive={activeNotesClicked}
+        onArchive={archivedNotesClicked}
+      />
 
-        <NotesTypeMenu
-          isActive={notesType === ACTIVE_NOTES}
-          isArchived={notesType === ARCHIVED_NOTES}
-          onActive={this.activeNotesClicked}
-          onArchive={this.archivedNotesClicked}
-        />
+      {notesType === ACTIVE_NOTES && (
+        <div>
+          <LabelNote label="Catatan Aktif" />
+          {notes.length ? (
+            <ListNote
+              items={notes}
+              onDelete={onDeleteNote}
+              onArchive={onArchiveNote}
+            />
+          ) : (
+            <Text>Tidak ada catatan</Text>
+          )}
+        </div>
+      )}
 
-        {notesType === ACTIVE_NOTES && (
-          <div>
-            <LabelNote label="Catatan Aktif" />
-            {notes.length ? (
-              <ListNote
-                items={notes}
-                onDelete={this.onDeleteNote}
-                onArchive={this.onArchiveNote}
-              />
-            ) : (
-              <Text>Tidak ada catatan</Text>
-            )}
-          </div>
-        )}
-
-        {notesType === ARCHIVED_NOTES && (
-          <div>
-            <LabelNote label="Catatan Arsip" />
-            {notes.length ? (
-              <ListNote
-                items={notes}
-                onDelete={this.onDeleteNote}
-                onArchive={this.onUnArchiveNote}
-              />
-            ) : (
-              <Text>Tidak ada arsip catatan</Text>
-            )}
-          </div>
-        )}
-      </>
-    );
-  }
-}
+      {notesType === ARCHIVED_NOTES && (
+        <div>
+          <LabelNote label="Catatan Arsip" />
+          {notes.length ? (
+            <ListNote
+              items={notes}
+              onDelete={onDeleteNote}
+              onArchive={onUnArchiveNote}
+            />
+          ) : (
+            <Text>Tidak ada arsip catatan</Text>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
 
 export default NotesScreen;
