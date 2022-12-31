@@ -46,11 +46,11 @@ const CreateNoteScreen = () => {
   };
 
   return (
-    <div className="note-create">
+    <div className="form-container">
       <LabelNote label="Tambah Catatan" />
       <Spacer v={20} />
       <input
-        className="note__input"
+        className="form-input"
         value={title}
         placeholder="Judul"
         onChange={onTitleChange}
@@ -58,7 +58,7 @@ const CreateNoteScreen = () => {
       <Spacer v={10} />
       <p className="note-create__desc-info-limit">{`${body.length}/${LIMIT_DESCRIPTION_SIZE}`}</p>
       <textarea
-        className="note__input"
+        className="form-input"
         value={body}
         placeholder="Deskripsi"
         onChange={onBodyChange}

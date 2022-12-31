@@ -49,93 +49,21 @@ ul {
   background-color: grey;
 }
 
-.button-small{
-  border-radius: 10px;
-  padding: 8px;
-  border:0px;
-  font-weight: bold;
-  color:white;
-}
-
-.button-blue{
-  background-color: cornflowerblue;
-}
-
-.button-red{
-  background-color: crimson;
-}
-
-.button-blue:hover:enabled{
-  box-shadow: 0px 0px 5px cornflowerblue;
-}
-
-.button-red:hover:enabled{
-  box-shadow: 0px 0px 5px crimson;
-}
-
-.button-menu-active{
-  background-color: mediumseagreen;
-  border-radius: 10px;
-  padding: 8px;
-  border:0px;
-  font-weight: bold;
-  color:white;
-}
-
-.button-menu-inactive{
-  background-color: grey;
-  border-radius: 10px;
-  padding: 8px;
-  border:0px;
-  font-weight: bold;
-  color:white;
-}
-
-.button-menu-active:hover:enabled{
-  box-shadow: 0px 0px 5px mediumseagreen
-}
-
-.button-menu-inactive:hover:enabled{
-  box-shadow: 0px 0px 5px grey;
-}
-
 .note-header{
   text-align: center;
 }
 
-.note-search, .note-create{
+.form-container {
   margin:auto;
   text-align: center;
   width:30%;
 }
 
-.note-item{
-  background-color: #FFF;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px cornflowerblue;
-  margin-top:10px;
-  margin-bottom:10px;
-  padding: 20px;
-}
-
-.note-item__box-button{
- text-align: end;
-}
-
-.note__input{
+.form-input{
   width:100%;
   padding:8px;
   border: 1px solid cornflowerblue;
   border-radius: 10px;
-}
-
-.notes-type-menu{
-  text-align: end;
-}
-
-.note-item__date{
-  text-align: end;
-  font-size: 12px;
 }
 
 .note-create__desc-info-limit{

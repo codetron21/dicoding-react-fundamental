@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { showFormattedDate } from "../utils";
 import { getNote } from "../utils/local-data";
-import Text from "../components/Text";
 import Spacer from "../components/Spacer";
 
 const DetailNoteScreen = () => {
@@ -10,7 +9,7 @@ const DetailNoteScreen = () => {
   const note = getNote(id);
 
   if (!note) {
-    return <Text>Catatan tidak ada</Text>;
+    return <h4>Catatan tidak ada</h4>;
   }
 
   const { title, body, createdAt, archived } = note;

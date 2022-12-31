@@ -9,12 +9,11 @@ import {
   searchNotes,
 } from "../utils/local-data";
 
-import Text from "../components/Text";
 import Spacer from "../components/Spacer";
 import SearchNote from "../components/SearchNote";
 import LabelNote from "../components/LabelNote";
 import ListNote from "../components/ListNote";
-import NotesTypeMenu from "../components/NotesTypeMenu";
+import NotesTypeCategory from "../components/NotesTypeCategory";
 
 const ACTIVE_NOTES = "ACTIVE_NOTES";
 const ARCHIVED_NOTES = "ARCHIVED_NOTES";
@@ -96,7 +95,7 @@ const NotesScreen = () => {
 
       <Spacer v={40} />
 
-      <NotesTypeMenu
+      <NotesTypeCategory
         isActive={notesType === ACTIVE_NOTES}
         isArchived={notesType === ARCHIVED_NOTES}
         onActive={activeNotesClicked}
@@ -113,7 +112,7 @@ const NotesScreen = () => {
               onArchive={onArchiveNote}
             />
           ) : (
-            <Text>Tidak ada catatan</Text>
+            <h4>Tidak ada catatan</h4>
           )}
         </div>
       )}
@@ -128,7 +127,7 @@ const NotesScreen = () => {
               onArchive={onUnArchiveNote}
             />
           ) : (
-            <Text>Tidak ada arsip catatan</Text>
+            <h4>Tidak ada arsip catatan</h4>
           )}
         </div>
       )}

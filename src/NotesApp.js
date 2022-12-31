@@ -6,6 +6,8 @@ import HeaderNote from "./components/HeaderNote";
 import NotFoundScreen from "./pages/NotFoundScreen";
 import CreateNoteScreen from "./pages/CreateNoteScreen";
 import Spacer from "./components/Spacer";
+import LoginScreen from "./pages/LoginScreen";
+import RegisterScreen from "./pages/RegisterScreen";
 
 const NotesApp = () => {
   return (
@@ -20,7 +22,10 @@ const NotesApp = () => {
             <li>
               <Link to="/create-note">Add Notes</Link>
             </li>
-            <li>{/* <a href="">Logout</a> */}</li>
+            <Spacer h={20} />
+            <li>
+              <Link to="/login">Logout</Link>
+            </li>
           </ul>
         </nav>
 
@@ -32,6 +37,8 @@ const NotesApp = () => {
           <Route path="/" element={<NotesScreen />} />
           <Route path="/create-note" element={<CreateNoteScreen />} />
           <Route path="/detail-note/:id" element={<DetailNoteScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>
       </main>

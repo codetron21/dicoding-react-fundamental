@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Spacer from "./Spacer";
 
 const SearchNote = ({ value, hint, onChange, onSubmit }) => (
-  <div className="note-search">
+  <div className="form-container">
     <input
-      className="note__input"
+      className="form-input"
       type="search"
       value={value}
       placeholder={hint}
