@@ -31,7 +31,6 @@ const DetailNoteScreen = () => {
 
 const Styles = {
   "note-item": {
-    backgroundColor: "#FFF",
     borderRadius: "10px",
     boxShadow: "0px 0px 5px cornflowerblue",
     marginTop: "10px",

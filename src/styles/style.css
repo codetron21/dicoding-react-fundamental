@@ -1,3 +1,13 @@
+:root {
+  --font-color: #333;
+  --background-color: #eee;
+}
+
+[data-theme='Dark'] {
+  --font-color: #eee;
+  --background-color: #333;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -5,9 +15,10 @@
 }
 
 body {
-  background-color: #e0e0e0;
   font-family: 'Inter', sans-serif;
   padding: 0px 40px 40px;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 li {
@@ -16,9 +27,13 @@ li {
 
 a {
   text-decoration: none;
+  color: var(--font-color);
 }
 
-textarea, input { font-family: 'Inter', sans-serif; }
+textarea, input { 
+  color: var(--font-color);
+  background-color: var(--background-color);
+  font-family: 'Inter', sans-serif; }
 
 textarea{
   font-size: 12px;
