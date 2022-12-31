@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Spacer from "./Spacer";
+import TokenContext from "../contexts/TokenContext";
 
 const MainMenu = () => {
+  const tokenContext = useContext(TokenContext);
+
+  const onLogout = () => {
+    tokenContext.deleteToken();
+  };
+
   return (
     <nav>
       <ul>
@@ -15,7 +22,7 @@ const MainMenu = () => {
         </li>
         <Spacer h={20} />
         <li>
-          <Link to="/login">Logout</Link>
+          <Link onClick={() => onLogout()}>Logout</Link>
         </li>
       </ul>
     </nav>

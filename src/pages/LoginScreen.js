@@ -4,22 +4,55 @@ import LabelNote from "../components/LabelNote";
 import Spacer from "../components/Spacer";
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const buttonEnabled = useState(true);
   const [isButtonHover, setIsButtonHover] = useState(false);
+
+  const onHandleChangeEmail = (e) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+  };
+
+  const onHandleChangePassword = (e) => {
+    const inputPass = e.target.value;
+    setPassword(inputPass);
+  };
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      alert("Kolom masukan tidak boleh kosong");
+      return;
+    }
+  };
 
   return (
     <div style={Styles["form-container"]}>
       <LabelNote label="Login" />
       <Spacer v={20} />
-      <input style={Styles["form-input"]} placeholder="Username" />
+      <input
+        type="email"
+        style={Styles["form-input"]}
+        placeholder="Email"
+        value={email}
+        onChange={onHandleChangeEmail}
+      />
       <Spacer v={10} />
-      <input style={Styles["form-input"]} placeholder="Password" />
+      <input
+        type="password"
+        style={Styles["form-input"]}
+        placeholder="Password"
+        value={password}
+        onChange={onHandleChangePassword}
+      />
       <Spacer v={10} />
       <button
         style={Styles["button-large"](buttonEnabled, isButtonHover)}
         type="button"
         onMouseEnter={() => setIsButtonHover(true)}
         onMouseLeave={() => setIsButtonHover(false)}
+        onClick={onLogin}
       >
         Login
       </button>
