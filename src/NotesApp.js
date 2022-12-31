@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import NotesScreen from "./pages/NotesScreen";
 import DetailNoteScreen from "./pages/DetailNoteScreen";
 import HeaderNote from "./components/HeaderNote";
@@ -8,27 +8,13 @@ import CreateNoteScreen from "./pages/CreateNoteScreen";
 import Spacer from "./components/Spacer";
 import LoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
+import MainMenu from "./components/MainMenu";
 
 const NotesApp = () => {
   return (
     <>
       <header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <Spacer h={20} />
-            <li>
-              <Link to="/create-note">Add Notes</Link>
-            </li>
-            <Spacer h={20} />
-            <li>
-              <Link to="/login">Logout</Link>
-            </li>
-          </ul>
-        </nav>
-
+        <MainMenu />
         <HeaderNote title="Notes" />
         <Spacer v={20} />
       </header>

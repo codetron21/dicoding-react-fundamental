@@ -15,8 +15,8 @@ const DetailNoteScreen = () => {
   const { title, body, createdAt, archived } = note;
 
   return (
-    <div className="note-item">
-      <p className="note-item__date">
+    <div style={Styles["note-item"]}>
+      <p style={Styles["note-item__date"]}>
         {showFormattedDate(new Date(createdAt))}
       </p>
       <h2>{id}</h2>
@@ -27,6 +27,21 @@ const DetailNoteScreen = () => {
       <p>Arsip: {archived ? "Ya" : "Tidak"}</p>
     </div>
   );
+};
+
+const Styles = {
+  "note-item": {
+    backgroundColor: "#FFF",
+    borderRadius: "10px",
+    boxShadow: "0px 0px 5px cornflowerblue",
+    marginTop: "10px",
+    marginBottom: "10px",
+    padding: "20px",
+  },
+  "note-item__date": {
+    textAlign: "end",
+    fontSize: "12px",
+  },
 };
 
 export default DetailNoteScreen;
