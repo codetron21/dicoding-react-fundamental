@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LabelNote from "../components/LabelNote";
 import Spacer from "../components/Spacer";
-import { addNote } from "../utils/local-data";
+import { addNote } from "../utils/network-data";
 
 const LIMIT_DESCRIPTION_SIZE = 50;
 
@@ -15,7 +15,6 @@ const CreateNoteScreen = () => {
 
   const onTitleChange = (e) => {
     const title = e.target.value;
-
     setTitle(title);
   };
 
@@ -33,7 +32,7 @@ const CreateNoteScreen = () => {
     setButtonEnabled(true);
   };
 
-  const onAddNoteSubmitted = (e) => {
+  const onAddNoteSubmitted = async (e) => {
     e.preventDefault();
 
     if (!title || !body) {
@@ -41,8 +40,13 @@ const CreateNoteScreen = () => {
       return;
     }
 
-    addNote({ title, body });
-    alert("Berhasil menambahkan catatan");
+    const { error } = await addNote({ title, body });
+    if (error) {
+      alert("Gagal menambahkan data");
+      return;
+    }
+
+    alert("Berhasil menambahkan data");
     navigate("/");
   };
 

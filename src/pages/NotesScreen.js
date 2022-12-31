@@ -1,87 +1,117 @@
-import React, { useState } from "react";
-
-import {
-  getActiveNotes,
-  getArchivedNotes,
-  deleteNote,
-  archiveNote,
-  unarchiveNote,
-  searchNotes,
-} from "../utils/local-data";
+import React, { useEffect, useState } from "react";
 
 import Spacer from "../components/Spacer";
 import SearchNote from "../components/SearchNote";
 import LabelNote from "../components/LabelNote";
 import ListNote from "../components/ListNote";
 import NotesTypeCategory from "../components/NotesTypeCategory";
+import { CircularProgress } from "react-loading-indicators";
+import {
+  getActiveNotes,
+  getArchivedNotes,
+  archiveNote,
+  unarchiveNote,
+  deleteNote,
+} from "../utils/network-data";
 
 const ACTIVE_NOTES = "ACTIVE_NOTES";
 const ARCHIVED_NOTES = "ARCHIVED_NOTES";
 
 const NotesScreen = () => {
-  const [notes, setNotes] = useState(() => getActiveNotes());
+  const [notes, setNotes] = useState([]);
+  const [archivedNotes, setArchivedNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [notesType, setNotesType] = useState(ACTIVE_NOTES);
   const [query, setQuery] = useState("");
 
+  useEffect(() => {
+    if (notesType === ACTIVE_NOTES) {
+      getNotes();
+      return;
+    }
+
+    if (notesType === ARCHIVED_NOTES) {
+      getNotesArchived();
+      return;
+    }
+  }, [notesType]);
+
+  const getNotes = async () => {
+    setLoading(true);
+    const { data } = await getActiveNotes();
+    setLoading(false);
+    setNotes(data);
+  };
+
+  const getNotesArchived = async () => {
+    setLoading(true);
+    const { data } = await getArchivedNotes();
+    setLoading(false);
+    setArchivedNotes(data);
+  };
+
   const onChangeSearchNotes = (e) => {
-    e.preventDefault();
-
-    const title = e.target.value;
-    const isActiveNotes = notesType === ACTIVE_NOTES;
-    const notes = title
-      ? searchNotes(title, !isActiveNotes)
-      : isActiveNotes
-      ? getActiveNotes()
-      : getArchivedNotes();
-
-    setNotes(notes);
-    setQuery(title);
+    setQuery(e.target.value);
   };
 
   const onSubmitSearchNotes = (e) => {
     e.preventDefault();
-
-    const title = query;
-    const isActiveNotes = notesType === ACTIVE_NOTES;
-    const notes = title
-      ? searchNotes(title, !isActiveNotes)
-      : isActiveNotes
-      ? getActiveNotes()
-      : getArchivedNotes();
-
-    setNotes(notes);
+    searchNotes(query);
   };
 
-  const onDeleteNote = (id) => {
-    deleteNote(id);
-    const isActiveNotes = notesType === ACTIVE_NOTES;
-    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
-  };
-
-  const onArchiveNote = (id) => {
-    archiveNote(id);
-    const isActiveNotes = notesType === ACTIVE_NOTES;
-    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
-  };
-
-  const onUnArchiveNote = (id) => {
-    unarchiveNote(id);
-    const isActiveNotes = notesType === ACTIVE_NOTES;
-    setNotes(isActiveNotes ? getActiveNotes() : getArchivedNotes());
-  };
-
-  const activeNotesClicked = (e) => {
-    e.preventDefault();
-
-    setNotes(getActiveNotes());
+  const activeNotesClicked = () => {
     setNotesType(ACTIVE_NOTES);
+    setQuery("");
   };
 
-  const archivedNotesClicked = (e) => {
-    e.preventDefault();
-
-    setNotes(getArchivedNotes());
+  const archivedNotesClicked = () => {
     setNotesType(ARCHIVED_NOTES);
+    setQuery("");
+  };
+
+  const searchNotes = async (title) => {
+    setLoading(true);
+
+    if (notesType === ACTIVE_NOTES) {
+      const { data } = await getActiveNotes();
+      setLoading(false);
+      setNotes(
+        data.filter((d) => d.title.toLowerCase().includes(title.toLowerCase()))
+      );
+      return;
+    }
+
+    if (notesType === ARCHIVED_NOTES) {
+      const { data } = await getArchivedNotes();
+      setLoading(false);
+      setArchivedNotes(
+        data.filter((d) => d.title.toLowerCase().includes(title.toLowerCase()))
+      );
+      return;
+    }
+  };
+
+  const onDeleteNote = async (id) => {
+    await deleteNote(id);
+    if (notesType === ACTIVE_NOTES) {
+      getNotes();
+      return;
+    }
+
+    if (notesType === ARCHIVED_NOTES) {
+      getNotesArchived();
+      return;
+    }
+  };
+
+  const onArchiveNote = async (id) => {
+    await archiveNote(id);
+    await getNotes();
+  };
+
+  const onUnArchiveNote = async (id) => {
+    await unarchiveNote(id);
+    await getNotesArchived();
   };
 
   return (
@@ -105,6 +135,13 @@ const NotesScreen = () => {
       {notesType === ACTIVE_NOTES && (
         <div>
           <LabelNote label="Catatan Aktif" />
+          {loading && (
+            <CircularProgress
+              style={Styles.loader}
+              size="small"
+              color="cornflowerblue"
+            />
+          )}
           {notes.length ? (
             <ListNote
               items={notes}
@@ -120,9 +157,16 @@ const NotesScreen = () => {
       {notesType === ARCHIVED_NOTES && (
         <div>
           <LabelNote label="Catatan Arsip" />
-          {notes.length ? (
+          {loading && (
+            <CircularProgress
+              style={Styles.loader}
+              size="small"
+              color="cornflowerblue"
+            />
+          )}
+          {archivedNotes.length ? (
             <ListNote
-              items={notes}
+              items={archivedNotes}
               onDelete={onDeleteNote}
               onArchive={onUnArchiveNote}
             />
@@ -133,6 +177,12 @@ const NotesScreen = () => {
       )}
     </>
   );
+};
+
+const Styles = {
+  loader: {
+    padding: "10px",
+  },
 };
 
 export default NotesScreen;

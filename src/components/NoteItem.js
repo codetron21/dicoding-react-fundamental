@@ -9,11 +9,16 @@ const NoteItem = ({ id, title, body, date, archived, onDelete, onArchive }) => {
   const navigate = useNavigate();
   const [isDeleteHover, setIsDeleteHover] = useState(false);
   const [isArchiveHover, setIsArchiveHover] = useState(false);
+  const [isDivClickable, setDivClickable] = useState(true);
 
   return (
     <div
       style={Styles["note-item"]}
-      onClick={() => navigate(`/detail-note/${id}`)}
+      onClickCapture={(e) => {
+        if (!isDivClickable) return;
+        e.preventDefault();
+        navigate(`/detail-note/${id}`);
+      }}
     >
       <p style={Styles["note-item__date"]}>
         {showFormattedDate(new Date(date))}
@@ -25,9 +30,18 @@ const NoteItem = ({ id, title, body, date, archived, onDelete, onArchive }) => {
         <button
           style={Styles["button-delete"](isDeleteHover)}
           type="button"
-          onClickCapture={() => onDelete(id)}
-          onMouseEnter={() => setIsDeleteHover(true)}
-          onMouseLeave={() => setIsDeleteHover(false)}
+          onClickCapture={(e) => {
+            e.preventDefault();
+            onDelete(id);
+          }}
+          onMouseEnter={() => {
+            setIsDeleteHover(true);
+            setDivClickable(false);
+          }}
+          onMouseLeave={() => {
+            setIsDeleteHover(false);
+            setDivClickable(true);
+          }}
         >
           Hapus
         </button>
@@ -35,9 +49,18 @@ const NoteItem = ({ id, title, body, date, archived, onDelete, onArchive }) => {
         <button
           style={Styles["button-archive"](isArchiveHover)}
           type="button"
-          onClickCapture={() => onArchive(id)}
-          onMouseEnter={() => setIsArchiveHover(true)}
-          onMouseLeave={() => setIsArchiveHover(false)}
+          onClickCapture={(e) => {
+            e.preventDefault();
+            onArchive(id);
+          }}
+          onMouseEnter={() => {
+            setIsArchiveHover(true);
+            setDivClickable(false);
+          }}
+          onMouseLeave={() => {
+            setIsArchiveHover(false);
+            setDivClickable(true);
+          }}
         >
           {archived ? "Pindahkan" : "Arsipkan"}
         </button>
