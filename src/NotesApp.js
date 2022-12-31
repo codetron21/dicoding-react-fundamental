@@ -20,7 +20,7 @@ const NotesApp = () => {
     () => localStorage.getItem("theme") || "Light"
   );
 
-  const [token, setToken] = useState(() => getAccessToken() || null);
+  const [token, setToken] = useState(() => getAccessToken() || "");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -36,12 +36,12 @@ const NotesApp = () => {
 
   const saveToken = (token) => {
     setToken(token);
-    putAccessToken(getAccessToken());
+    putAccessToken(token);
   };
 
   const deleteToken = () => {
-    putAccessToken(null);
-    setToken(getAccessToken());
+    setToken("");
+    putAccessToken("");
   };
 
   const contextValue = React.useMemo(() => {
@@ -64,12 +64,12 @@ const NotesApp = () => {
       <TokenProvider value={tokenValue}>
         <header>
           <ThemeMenu />
-          {token == null ? <AuthMenu /> : <MainMenu />}
+          {token === "" ? <AuthMenu /> : <MainMenu />}
           <HeaderNote title="Notes" />
           <Spacer v={20} />
         </header>
         <main>
-          {token == null ? (
+          {token === "" ? (
             <Routes>
               <Route path="/*" element={<LoginScreen />} />
               <Route path="/register" element={<RegisterScreen />} />

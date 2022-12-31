@@ -1,13 +1,21 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState, useEffect } from "react";
 import LabelNote from "../components/LabelNote";
 import Spacer from "../components/Spacer";
+import { CircularProgress } from "react-loading-indicators";
+import { login } from "../utils/network-data";
+import TokenContext from "../contexts/TokenContext";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const buttonEnabled = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
   const [isButtonHover, setIsButtonHover] = useState(false);
+  const tokenContext = useContext(TokenContext);
+
+  useEffect(() => {
+    setButtonEnabled(!loading);
+  }, [loading, buttonEnabled]);
 
   const onHandleChangeEmail = (e) => {
     const inputEmail = e.target.value;
@@ -19,18 +27,34 @@ const LoginScreen = () => {
     setPassword(inputPass);
   };
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       alert("Kolom masukan tidak boleh kosong");
       return;
     }
+
+    setLoading(true);
+    const { error, data } = await login({ email, password });
+    setLoading(false);
+    if (error) {
+      return;
+    }
+
+    tokenContext.saveToken(data.accessToken);
   };
 
   return (
     <div style={Styles["form-container"]}>
       <LabelNote label="Login" />
       <Spacer v={20} />
+      {loading && (
+        <CircularProgress
+          style={Styles.loader}
+          size="small"
+          color="cornflowerblue"
+        />
+      )}
       <input
         type="email"
         style={Styles["form-input"]}
@@ -61,6 +85,9 @@ const LoginScreen = () => {
 };
 
 const Styles = {
+  loader: {
+    padding: "10px",
+  },
   "form-container": {
     margin: "auto",
     textAlign: "center",
